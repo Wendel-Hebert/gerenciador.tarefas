@@ -1,83 +1,104 @@
-# Boilerplate MVC em Node.js com PostgreSQL
+readme : <h1>📋 Gerenciador de Tarefas</h1>
 
-Este projeto é um boilerplate básico para uma aplicação Node.js seguindo o padrão MVC (Model-View-Controller), utilizando PostgreSQL como banco de dados.
+  <p>Um sistema simples de gerenciamento de tarefas (To-do list), desenvolvido com JavaScript no frontend, Node.js no backend e PostgreSQL como banco de dados, utilizando o Supabase como plataforma de backend-as-a-service.</p>
 
-## Requisitos
+  <h2>🚀 Funcionalidades</h2>
+  <ul>
+    <li>✅ Criar, ler, atualizar e deletar tarefas</li>
+    <li>🕒 Marcar tarefas como concluídas ou pendentes</li>
+    <li>🔍 Filtrar tarefas por status</li>
+    <li>🔒 Autenticação de usuários com Supabase</li>
+   
+  </ul>
 
-- Node.js (versão X.X.X)
-- PostgreSQL (versão X.X.X)
+  <h2>🛠 Tecnologias Utilizadas</h2>
+  <ul>
+    <li><strong>Frontend:</strong> HTML, CSS, JavaScript</li>
+    <li><strong>Backend:</strong> Node.js (Express)</li>
+    <li><strong>Banco de Dados:</strong> PostgreSQL (via <a href="https://supabase.io" target="_blank">Supabase</a>)</li>
+    <li><strong>Hospedagem/Serviços:</strong> Supabase Auth e Supabase DB</li>
+  </ul>
 
-## Instalação
 
-1. **Clonar o repositório:**
 
-```bash
-   git clone https://github.com/seu-usuario/seu-projeto.git
-   cd seu-projeto
+
+## 📁 Estrutura de Pastas
+```
+gerenciador-de-tarefas/
+
+├── assets/ # Arquivos estáticos como imagens, CSS, JS
+├── config/ # Configurações da aplicação
+├── controllers/ # Controladores da aplicação
+├── documentos/ # Documentação adicional ou arquivos auxiliares
+├── models/ # Modelos de dados
+├── node_modules/ # Dependências instaladas via npm
+├── routes/ # Definições de rotas
+├── scripts/ # Scripts auxiliares
+├── services/ # Lógica de serviços (ex: comunicação com APIs)
+├── tests/ # Testes automatizados
+├── views/ # Templates da interface do usuário
+├── .env # Variáveis de ambiente
+├── .gitignore # Arquivos e pastas ignorados pelo Git
+├── jest.config.js # Configuração do Jest para testes
+├── package-lock.json # Lockfile do npm
+├── package.json # Configurações e dependências do projeto
+├── readme.md # Documentação do projeto
+├── rest.http # Requisições HTTP para testes
+└── server.js # Arquivo principal do servidor
 ```
 
-2. **Instalar as dependências:**
-    
+
+
+
+
+
+<h2>📦 Como Rodar o Projeto Localmente</h2>
+
+*Siga os passos abaixo para configurar e executar o projeto em sua máquina:*
+
+1.*Clone o repositório*:
+   bash
+   git clone https://github.com/Wendel-Hebert/gerenciador.tarefas
+   cd gerenciador-de-tarefas
+
+2.**Instale as dependências: Certifique-se de que você tem o Node.js instalado. Em seguida, execute:**
 ```bash
-npm install
+npm install 
 ```
-    
-3. **Configurar o arquivo `.env`:**
-    
-Renomeie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente necessárias, como as configurações do banco de dados PostgreSQL.
-    
 
-Configuração do Banco de Dados
-------------------------------
 
-1. **Criar banco de dados:**
-    
-    Crie um banco de dados PostgreSQL com o nome especificado no seu arquivo `.env`.
-    
-2. **Executar o script SQL de inicialização:**
-    
-```bash
-npm run init-db
+3.**Configure as variáveis de ambiente: Crie um arquivo .env na raiz do projeto (se ainda não existir) e configure as variáveis de ambiente , com os dados da seu banco de dados no supabase,conforme o exemplo abaixo:**
 ```
-    
-Isso criará a tabela `users` no seu banco de dados PostgreSQL com UUID como chave primária e inserirá alguns registros de exemplo.
-    
+bash
+DB_USER= "seu_usuario"
+DB_HOST= "seu_host"
+DB_DATABASE= "seu_banco"
+DB_PASSWORD= "sua_senha"
+DB_PORT= "sua_porta"
+DB_SSL= "true"
+PORT= 3000
+```
 
-Funcionalidades
----------------
+4.**Execute o script de inicialização do banco de dados: Certifique-se de que o banco de dados PostgreSQL está configurado e rodando. Depois, execute o script SQL para criar as tabelas:**
+```
+bash
+node scripts/runSQLScript.js
+```
 
-* **Padrão MVC:** Estrutura organizada em Model, View e Controller.
-* **PostgreSQL:** Banco de dados relacional utilizado para persistência dos dados.
-* **UUID:** Utilização de UUID como chave primária na tabela `users`.
-* **Scripts com `nodemon`:** Utilização do `nodemon` para reiniciar automaticamente o servidor após alterações no código.
-* **Testes:** Inclui estrutura básica para testes automatizados.
+5.**Inicie o servidor: Execute o comando abaixo para iniciar o servidor:**
+```
+bash
+npm start
+```
 
-Scripts Disponíveis
--------------------
+6.**Acesse a aplicação: Abra o navegador e acesse:**
+```
+bash
+http://localhost:3000
+```
 
-* `npm start`: Inicia o servidor Node.js.
-* `npm run dev`: Inicia o servidor com `nodemon`, reiniciando automaticamente após alterações no código.
-* `npm run test`: Executa os testes automatizados.
-* `npm run test:coverage`: Executa os testes e gera um relatório de cobertura de código.
-
-Estrutura de Diretórios
------------------------
-
-* **`config/`**: Configurações do banco de dados e outras configurações do projeto.
-* **`controllers/`**: Controladores da aplicação (lógica de negócio).
-* **`models/`**: Modelos da aplicação (definições de dados e interações com o banco de dados).
-* **`routes/`**: Rotas da aplicação.
-* **`tests/`**: Testes automatizados.
-* **`views/`**: Views da aplicação (se aplicável).
-
-Contribuição
-------------
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir um issue ou enviar um pull request.
-
-Licença
--------
-
-Este projeto está licenciado sob a Licença MIT.
-
-Este README.md fornece uma visão geral clara do boilerplate, incluindo instruções de instalação, configuração do banco de dados, funcionalidades principais, scripts disponíveis, estrutura de diretórios, como contribuir e informações de licença. Certifique-se de personalizar as seções com detalhes específicos do seu projeto conforme necessário.
+7.**Testes (opcional): Para rodar os testes, execute:**
+```
+bash
+npm test
+```
