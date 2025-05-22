@@ -1,36 +1,36 @@
--- Tabela de usuários
-CREATE TABLE IF NOT EXISTS public.usuario (
+-- Users table
+CREATE TABLE IF NOT EXISTS public."user" (
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    senha VARCHAR(200) NOT NULL,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    password VARCHAR(200) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabela de categorias
-CREATE TABLE IF NOT EXISTS public.categorias (
+-- Categories table
+CREATE TABLE IF NOT EXISTS public.category (
     id SERIAL PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    usuario_id INTEGER NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES public.usuario(id)
+    name VARCHAR(100) NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES public."user"(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
--- Tabela de tarefas
-CREATE TABLE IF NOT EXISTS public.tarefas (
+-- Tasks table
+CREATE TABLE IF NOT EXISTS public.task (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(150) NOT NULL,
-    descricao TEXT,
-    status VARCHAR(50) NOT NULL DEFAULT 'pendente',
-    data_limite DATE,
-    usuario_id INTEGER NOT NULL,
-    categorias_id INTEGER,
-    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES public.usuario(id)
+    title VARCHAR(150) NOT NULL,
+    description TEXT,
+    status VARCHAR(50) NOT NULL DEFAULT 'pending',
+    due_date DATE,
+    user_id INTEGER NOT NULL,
+    category_id INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES public."user"(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (categorias_id) REFERENCES public.categorias(id)
+    FOREIGN KEY (category_id) REFERENCES public.category(id)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
