@@ -1,6 +1,6 @@
 // services/userService.js
 
-const db = require("../config/db");
+const db = require("../config/db.js");
 
 // Função para obter todos os usuários
 const getAllUsers = async () => {
