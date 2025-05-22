@@ -1,18 +1,16 @@
-const { Pool } = require('pg');
-require('dotenv').config();
+const path = require("path");
+const { Pool } = require("pg");
+require("dotenv").config();
 
-const isSSL = process.env.DB_SSL === 'true';
-
-const pool = new Pool({
-  user: process.env.DB_USER,
+const db = new Pool({
   host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
-  ssl: isSSL ? { rejectUnauthorized: false } : false,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
-module.exports = {
-  query: (text, params) => pool.query(text, params),
-  connect: () => pool.connect(),
-};
+module.exports = db;
+// Ordena os arquivos por nome (timestamp)
+const migrationsDir = path.join(__dirname, "./");
+exports.migrationsDir = migrationsDir;
