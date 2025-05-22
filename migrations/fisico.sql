@@ -1,5 +1,5 @@
 -- Users table
-CREATE TABLE IF NOT EXISTS public."user" (
+CREATE TABLE IF NOT EXISTS public.user (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -12,13 +12,13 @@ CREATE TABLE IF NOT EXISTS public.category (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     user_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES public."user"(id)
+    FOREIGN KEY (user_id) REFERENCES public.user(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 -- Tasks table
-CREATE TABLE IF NOT EXISTS public.task (
+CREATE TABLE IF NOT EXISTS public.Task (
     id SERIAL PRIMARY KEY,
     title VARCHAR(150) NOT NULL,
     description TEXT,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS public.task (
     user_id INTEGER NOT NULL,
     category_id INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES public."user"(id)
+    FOREIGN KEY (user_id) REFERENCES public.user(id)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (category_id) REFERENCES public.category(id)

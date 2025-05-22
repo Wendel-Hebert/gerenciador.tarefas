@@ -1,5 +1,5 @@
-# Criar usuário
-POST http://localhost:3000/users
+### Criar usuário
+POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
@@ -8,16 +8,16 @@ Content-Type: application/json
   "password": "secret123"
 }
 
-# Listar usuários
-GET http://localhost:3000/users
+### Listar usuários
+GET http://localhost:3000/api/users
 Accept: application/json
 
-# Obter usuário por ID
-GET http://localhost:3000/users/1
+### Obter usuário por ID
+GET http://localhost:3000/api/users/1
 Accept: application/json
 
-# Atualizar usuário
-PUT http://localhost:3000/users/1
+### Atualizar usuário
+PUT http://localhost:3000/api/users/1
 Content-Type: application/json
 
 {
@@ -26,14 +26,14 @@ Content-Type: application/json
   "password": "newpass456"
 }
 
-# Deletar usuário
-DELETE http://localhost:3000/users/1
+### Deletar usuário
+DELETE http://localhost:3000/api/users/1
 Accept: application/json
 
-------------------------------------------------------------------
+---
 
-# Criar categoria (associada ao usuário 1)
-POST http://localhost:3000/categories
+### Criar categoria (associada ao usuário 1)
+POST http://localhost:3000/api/categories
 Content-Type: application/json
 
 {
@@ -41,16 +41,16 @@ Content-Type: application/json
   "user_id": 1
 }
 
-# Listar categorias
-GET http://localhost:3000/categories
+### Listar categorias
+GET http://localhost:3000/api/categories
 Accept: application/json
 
-# Obter categoria por ID
-GET http://localhost:3000/categories/1
+### Obter categoria por ID
+GET http://localhost:3000/api/categories/1
 Accept: application/json
 
-# Atualizar categoria
-PUT http://localhost:3000/categories/1
+### Atualizar categoria
+PUT http://localhost:3000/api/categories/1
 Content-Type: application/json
 
 {
@@ -58,46 +58,8 @@ Content-Type: application/json
   "user_id": 1
 }
 
-# Deletar categoria
-DELETE http://localhost:3000/categories/1
+### Deletar categoria
+DELETE http://localhost:3000/api/categories/1
 Accept: application/json
 
-------------------------------------------------------------------
-
-# Criar tarefa
-POST http://localhost:3000/tasks
-Content-Type: application/json
-
-{
-  "title": "Finalizar relatório",
-  "description": "Relatório anual de desempenho",
-  "status": "pending",
-  "due_date": "2025-06-01",
-  "user_id": 1,
-  "category_id": 1
-}
-
-# Listar tarefas
-GET http://localhost:3000/tasks
-Accept: application/json
-
-# Obter tarefa por ID
-GET http://localhost:3000/tasks/1
-Accept: application/json
-
-# Atualizar tarefa
-PUT http://localhost:3000/tasks/1
-Content-Type: application/json
-
-{
-  "title": "Finalizar relatório atualizado",
-  "description": "Incluindo novos dados",
-  "status": "in_progress",
-  "due_date": "2025-06-05",
-  "user_id": 1,
-  "category_id": 1
-}
-
-# Deletar tarefa
-DELETE http://localhost:3000/tasks/1
-Accept: application/json
+---
