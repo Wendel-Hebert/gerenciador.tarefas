@@ -63,3 +63,18 @@ A seguir, apresenta-se o modelo lógico do banco de dados utilizado:
   <img src="../assets/modelologico.png" 
   style="width:300x; height:400px;"alt="Modelo logico">
 </div>
+
+##  Alterações Recentes
+
+Foi implementado um processo completo de **configuração, migração e testes da base de dados**, visando garantir robustez e reprodutibilidade do ambiente da aplicação. As principais melhorias incluem:
+
+- **Integração com PostgreSQL via Supabase** com variáveis de ambiente parametrizadas no arquivo `.env`;
+- **Script automatizado de migração (`runSQLScript.js`)**, responsável por estruturar o banco com tabelas e relacionamentos conforme o modelo lógico;
+- **Implementação de testes automatizados com Jest e Supertest**, garantindo a cobertura das principais rotas (usuários, categorias, tarefas);
+- **Arquivo `rest.http`** adicionado para facilitar testes manuais via VSCode ou ferramentas de requisição REST;
+- Documentação complementar criada, detalhando o passo a passo para:  
+  - Configurar o ambiente de banco de dados  
+  - Executar as migrações  
+  - Realizar testes das APIs  
+
+Essas alterações fortalecem a confiabilidade e portabilidade do sistema, facilitando o onboarding de novos desenvolvedores e a continuidade evolutiva do projeto.

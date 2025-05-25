@@ -102,3 +102,23 @@ http://localhost:3000
 bash
 npm test
 ```
+9.**Testar as APIs manualmente (recomendado):**
+Use o arquivo `rest.http` com o plugin "REST Client" no VS Code, ou uma ferramenta como Insomnia/Postman para testar os endpoints definidos, como:
+```
+GET    /usuarios
+POST   /tarefas
+GET    /categorias/:id/tarefas
+```
+Confira a documentação da pasta `documentos/` para detalhes adicionais sobre as rotas e estrutura do banco.
+
+## 🔧 Novidades no Projeto
+
+Foram adicionadas instruções completas sobre:
+
+- **Como configurar o banco de dados PostgreSQL** via arquivo `.env`;
+- **Como executar migrações** usando um script Node.js (`runSQLScript.js`) para criar as tabelas no Supabase;
+- **Como testar as APIs**:
+  - Com **Jest e Supertest** (testes automatizados);
+  - Utilizando o arquivo `rest.http` (testes manuais via VSCode ou Postman);
+
+Essas melhorias tornam o projeto mais fácil de instalar, configurar e validar em ambiente local. Agora qualquer desenvolvedor pode rodar a aplicação do zero com mais segurança e agilidade.
