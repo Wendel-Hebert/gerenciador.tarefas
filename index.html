@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Documentação do Sistema de Reservas de Salas</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      line-height: 1.6;
+      color: #222;
+      background-color: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #5e0080;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0 2rem 0;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    th {
+      background-color: #5e0080;
+      color: white;
+    }
+    code {
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      font-family: Consolas, monospace;
+      font-size: 0.95rem;
+    }
+    pre {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    a {
+      color: #5e0080;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    hr {
+      margin: 3rem 0;
+      border: none;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Sistema de Gerenciamento de Tarefas</h1>
+
+  <p>Este sistema é uma aplicação de gerenciamento de tarefas (To-do list) simples, com funcionalidades de CRUD e autenticação de usuários, utilizando Node.js, JavaScript puro no frontend e PostgreSQL via Supabase no backend.</p>
+
+  <hr />
+
+  <h2>Visão Geral do Projeto</h2>
+  <p>O sistema gerencia três entidades principais, cada uma representada por uma tabela no banco de dados:</p>
+  <ul>
+    <li><strong>users</strong>: Usuários do sistema que realizarão a seleção de suas tarefas.</li>
+    <li><strong>categoria</strong>: Categoria na qual a tarefa se encaixa.</li>
+    <li><strong>tarefas</strong>: Tarefas com sua categoria, dificuldade e tempo estimado.</li>
+  </ul>
+
+  <hr />
+
+  <h2>Tecnologias Utilizadas</h2>
+  <ul>
+    <li>Frontend: HTML, CSS, JavaScript</li>
+    <li>Backend: Node.js (Express)</li>
+    <li>Banco de Dados: PostgreSQL (via Supabase)</li>
+    <li>Hospedagem e Autenticação: Supabase</li>
+  </ul>
+
+  <hr />
+
+  <h2>Resumo das Tabelas</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tabela</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>users</code></td>
+        <td>Usuários do sistema (nome, email, senha criptografada, data de criação)</td>
+      </tr>
+      <tr>
+        <td><code>categoria</code></td>
+        <td>Categoria da tarefa (nome, descrição)</td>
+      </tr>
+      <tr>
+        <td><code>tarefas</code></td>
+        <td>Tarefas (nome, dificuldade, tempo)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  <h2>Instalação e Configuração</h2>
+  <ol>
+    <li>
+      Clone o repositório:
+      <pre><code>git clone https://github.com/Wendel-Hebert/gerenciador.tarefas
+cd gerenciador-de-tarefas</code></pre>
+    </li>
+    <li>
+      Instale as dependências:
+      <pre><code>npm install</code></pre>
+    </li>
+    <li>
+      Configure as variáveis de ambiente:<br />
+      Renomeie o arquivo <code>.env.example</code> para <code>.env</code> e preencha os dados:
+      <pre><code>DB_HOST=localhost
+DB_PORT=sua_porta
+DB_NAME=seu_banco
+DB_USER=seu_usuario
+DB_PASSWORD=sua_senha
+PORT=3000</code></pre>
+    </li>
+    <li>Crie o banco de dados no PostgreSQL com o nome configurado.</li>
+    <li>Execute as migrações para criar as tabelas:
+      <pre><code>npm run migration</code></pre>
+    </li>
+  </ol>
+
+  <hr />
+
+  <h2>Funcionalidades Principais</h2>
+  <ul>
+    <li>Gerenciamento de tipos de sala (adicionar, editar, excluir)</li>
+    <li>Cadastro e edição das salas com atributos detalhados</li>
+    <li>Cadastro de usuários com autenticação</li>
+    <li>Controle dos status das reservas para fluxo de aprovação/cancelamento</li>
+    <li>Criação, consulta, atualização e exclusão de reservas com validação de horários para evitar conflitos</li>
+  </ul>
+
+  <hr />
+
+  <h2>Detalhamento das Tabelas</h2>
+
+  <h3>Users</h3>
+  <table>
+    <thead>
+      <tr><th>Coluna</th><th>Tipo</th><th>Descrição</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>id_users</td><td>SERIAL (PK)</td><td>ID do usuário</td></tr>
+      <tr><td>nome</td><td>VARCHAR(100)</td><td>Nome</td></tr>
+      <tr><td>email</td><td>VARCHAR(100)</td><td>Email único</td></tr>
+      <tr><td>senha</td><td>VARCHAR(255)</td><td>Senha criptografada</td></tr>
+      <tr><td>criado_em</td><td>VARCHAR(55)</td><td>Data de criação</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Categorias</h3>
+  <table>
+    <thead>
+      <tr><th>Coluna</th><th>Tipo</th><th>Descrição</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>id_category</td><td>SERIAL (PK)</td><td>ID da categoria</td></tr>
+      <tr><td>Nome_category</td><td>VARCHAR(50)</td><td>Nome da categoria</td></tr>
+      <tr><td>usuario_id</td><td>SERIAL (PK)</td><td>ID do usuário da categoria</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tarefas</h3>
+  <table>
+    <thead>
+      <tr><th>Coluna</th><th>Tipo</th><th>Descrição</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>id</td><td>INT (PK)</td><td>Identificador único da tarefa</td></tr>
+      <tr><td>titulo</td><td>VARCHAR</td><td>Título da tarefa</td></tr>
+      <tr><td>descricao</td><td>VARCHAR</td><td>Descrição da tarefa</td></tr>
+      <tr><td>status</td><td>VARCHAR</td><td>Status da tarefa (ex: pendente, concluída)</td></tr>
+      <tr><td>data_limite</td><td>VARCHAR</td><td>Data limite para conclusão</td></tr>
+      <tr><td>usuario_id</td><td>VARCHAR (FK)</td><td>ID do usuário responsável</td></tr>
+      <tr><td>categoria_id</td><td>VARCHAR (FK)</td><td>ID da categoria associada</td></tr>
+      <tr><td>criado_em</td><td>VARCHAR</td><td>Data de criação da tarefa</td></tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  <h2>Endpoints</h2>
+  <table>
+    <thead>
+      <tr><th>Método</th><th>Rota</th><th>Descrição</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>GET</td><td>/usuarios</td><td>Listar todos os usuários</td></tr>
+      <tr><td>POST</td><td>/usuarios</td><td>Criar um novo usuário</td></tr>
+      <tr><td>GET</td><td>/usuarios/:id</td><td>Obter detalhes de um usuário</td></tr>
+      <tr><td>PUT</td><td>/usuarios/:id</td><td>Atualizar dados de um usuário</td></tr>
+      <tr><td>DELETE</td><td>/usuarios/:id</td><td>Excluir um usuário</td></tr>
+      <tr><td>GET</td><td>/categorias</td><td>Listar todas as categorias</td></tr>
+      <tr><td>POST</td><td>/categorias</td><td>Criar uma nova categoria</td></tr>
+      <tr><td>GET</td><td>/categorias/:id</td><td>Obter detalhes de uma categoria</td></tr>
+      <tr><td>PUT</td><td>/categorias/:id</td><td>Atualizar uma categoria</td></tr>
+      <tr><td>DELETE</td><td>/categorias/:id</td><td>Excluir uma categoria</td></tr>
+      <tr><td>GET</td><td>/tarefas</td><td>Listar todas as tarefas</td></tr>
+      <tr><td>POST</td><td>/tarefas</td><td>Criar uma nova tarefa</td></tr>
+      <tr><td>GET</td><td>/tarefas/:id</td><td>Obter detalhes de uma tarefa</td></tr>
+      <tr><td>PUT</td><td>/tarefas/:id</td><td>Atualizar uma tarefa</td></tr>
+      <tr><td>DELETE</td><td>/tarefas/:id</td><td>Excluir uma tarefa</td></tr>
+      <tr><td>GET</td><td>/usuarios/:id/tarefas</td><td>Listar tarefas de um usuário</td></tr>
+      <tr><td>GET</td><td>/categorias/:id/tarefas</td><td>Listar tarefas de uma categoria</td></tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  <h2>Comandos Úteis</h2>
+  <ul>
+    <li><code>npm start</code>: Inicia o servidor</li> 
+    <li><code>npm run migration</code>: Executa criação das tabelas e dados iniciais</li>
+  </ul>
+
+  <hr />
+  
+</body>
+</html>
