@@ -63,3 +63,41 @@ DELETE http://localhost:3000/api/categories/1
 Accept: application/json
 
 ---
+
+### Criar tarefa
+POST http://localhost:3000/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Finalizar relatório",
+  "description": "Relatório mensal de desempenho",
+  "status": "pending",
+  "due_date": "2025-06-10",
+  "user_id": 1,
+  "category_id": 1
+}
+
+### Listar tarefas
+GET http://localhost:3000/api/tasks
+Accept: application/json
+
+### Obter tarefa por ID
+GET http://localhost:3000/api/tasks/1
+Accept: application/json
+
+### Atualizar tarefa
+PUT http://localhost:3000/api/tasks/1
+Content-Type: application/json
+
+{
+  "title": "Finalizar apresentação",
+  "description": "Preparar slides para reunião de sexta",
+  "status": "in progress",
+  "due_date": "2025-06-07",
+  "user_id": 1,
+  "category_id": 1
+}
+
+### Deletar tarefa
+DELETE http://localhost:3000/api/tasks/1
+Accept: application/json
