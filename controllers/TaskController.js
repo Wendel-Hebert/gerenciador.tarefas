@@ -1,87 +1,70 @@
-// controllers/TaskController.js
-const pool = require('../config/db.js');
+const taskRepository = require('../repositories/taskRepository');
+const taskSchema = require('../models/taskSchema');
 
-// Create a new task
-exports.createTask = async (req, res) => {
-  const { title, description } = req.body;
-
-  const query = 'INSERT INTO task (title, description) VALUES ($1, $2) RETURNING *'; // task singular
-  const values = [title, description];
+async function create(req, res) {
+  const { error, value } = taskSchema.validate(req.body);
+  if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {
-    const result = await pool.query(query, values);
-    const task = result.rows[0];
-    res.status(201).json(task);
+    const task = await taskRepository.create(value);
+    return res.status(201).json(task);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Erro ao criar task:', err);
+    return res.status(500).json({ error: 'Erro interno ao criar tarefa.' });
   }
-};
+}
 
-// List all tasks
-exports.getAllTasks = async (req, res) => {
-  const query = 'SELECT * FROM task'; // task singular
+async function getAll(req, res) {
+  try {
+    const tasks = await taskRepository.getAll();
+    return res.json(tasks);
+  } catch (err) {
+    console.error('Erro ao listar tasks:', err);
+    return res.status(500).json({ error: 'Erro interno ao listar tarefas.' });
+  }
+}
+
+async function getById(req, res) {
+  try {
+    const task = await taskRepository.findById(req.params.id);
+    if (!task) return res.status(404).json({ error: 'Tarefa não encontrada' });
+    return res.json(task);
+  } catch (err) {
+    console.error('Erro ao buscar task por ID:', err);
+    return res.status(500).json({ error: 'Erro interno ao buscar tarefa.' });
+  }
+}
+
+async function update(req, res) {
+  const { error, value } = taskSchema.validate(req.body);
+  if (error) return res.status(400).json({ error: error.details[0].message });
 
   try {
-    const result = await pool.query(query);
-    res.status(200).json(result.rows);
+    const task = await taskRepository.update(req.params.id, value);
+    if (!task) return res.status(404).json({ error: 'Tarefa não encontrada' });
+    return res.json(task);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Erro ao atualizar task:', err);
+    return res.status(500).json({ error: 'Erro interno ao atualizar tarefa.' });
   }
-};
+}
 
-// Get a task by ID
-exports.getTaskById = async (req, res) => {
-  const { id } = req.params;
-
-  const query = 'SELECT * FROM task WHERE id = $1'; // task singular
-  const values = [id];
-
+async function deleteTask(req, res) {
   try {
-    const result = await pool.query(query, values);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Task not found' });
-    }
-    res.status(200).json(result.rows[0]);
+    const task = await taskRepository.delete(req.params.id);
+    if (!task) return res.status(404).json({ error: 'Tarefa não encontrada' });
+    return res.json(task);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Erro ao deletar task:', err);
+    return res.status(500).json({ error: 'Erro interno ao deletar tarefa.' });
   }
-};
+}
 
-// Update a task
-exports.updateTask = async (req, res) => {
-  const { id } = req.params;
-  const { title, description, status } = req.body;
 
-  const query = `
-    UPDATE task SET title = $1, description = $2, status = $3, updated_at = CURRENT_TIMESTAMP
-    WHERE id = $4 RETURNING *`; // task singular
-  const values = [title, description, status, id];
-
-  try {
-    const result = await pool.query(query, values);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Task not found' });
-    }
-    res.status(200).json(result.rows[0]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Delete a task
-exports.deleteTask = async (req, res) => {
-  const { id } = req.params;
-
-  const query = 'DELETE FROM task WHERE id = $1 RETURNING *'; // task singular
-  const values = [id];
-
-  try {
-    const result = await pool.query(query, values);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Task not found' });
-    }
-    res.status(200).json({ message: 'Task deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+module.exports = {
+  create,
+  getAll,
+  getById,
+  update,
+  deleteTask
 };

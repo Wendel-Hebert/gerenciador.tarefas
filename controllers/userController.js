@@ -1,75 +1,44 @@
+const userRepository = require('../repositories/userRepository');
+const userSchema = require('../models/userSchema');
 
-const userService = require('../services/userService');
+async function create(req, res) {
+  const { error, value } = userSchema.validate(req.body);
+  if (error) return res.status(400).json({ error: error.details[0].message });
 
-const getAllUsers = async (req, res) => {
-  try {
-    const users = await userService.getAllUsers();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+  const user = await userRepository.create(value);
+  res.status(201).json(user);
+}
 
-const getUserById = async (req, res) => {
-  try {
-    const user = await userService.getUserById(req.params.id);
-    if (user) {
-      res.status(200).json(user);
-    } else {
-      res.status(404).json({ error: 'Usuário não encontrado' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+async function getAll(req, res) {
+  const users = await userRepository.getAll();
+  res.json(users);
+}
 
-const createUser = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
-    }
-    const newUser = await userService.createUser(name, email, password);
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+async function getById(req, res) {
+  const user = await userRepository.findById(req.params.id);
+  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+  res.json(user);
+}
 
-const updateUser = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
-    }
-    const updatedUser = await userService.updateUser(req.params.id, name, email, password);
-    if (updatedUser) {
-      res.status(200).json(updatedUser);
-    } else {
-      res.status(404).json({ error: 'Usuário não encontrado' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+async function update(req, res) {
+  const { error, value } = userSchema.validate(req.body);
+  if (error) return res.status(400).json({ error: error.details[0].message });
 
-const deleteUser = async (req, res) => {
-  try {
-    const deletedUser = await userService.deleteUser(req.params.id);
-    if (deletedUser) {
-      res.status(200).json(deletedUser);
-    } else {
-      res.status(404).json({ error: 'Usuário não encontrado' });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+  const user = await userRepository.update(req.params.id, value);
+  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+  res.json(user);
+}
+
+async function deleteUser(req, res) {
+  const user = await userRepository.delete(req.params.id);
+  if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+  res.json(user);
+}
 
 module.exports = {
-  getAllUsers,
-  getUserById,
-  createUser,
-  updateUser,
+  create,
+  getAll,
+  getById,
+  update,
   deleteUser
 };

@@ -2,14 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 // Import route modules
-const taskRoutes = require('./taskRoutes');   
-const categoryRoutes = require('./categoryRoutes'); 
-const userRoutes = require('./userRoutes');       
-
-// Root test route
-router.get('/', (req, res) => {
-  res.send('API is working!');
-});
+const taskRoutes = require('./taskRoutes.js');   
+const categoryRoutes = require('./categoryRoutes.js'); 
+const userRoutes = require('./userRoutes.js');       
 
 // Mount each route group under a specific path
 router.use('/tasks', taskRoutes);         

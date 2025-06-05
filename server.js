@@ -1,36 +1,41 @@
-const express = require('express');
-
-const db = require('./config/db');
-db.connect()
-  .then(() => console.log('Conectado ao banco de dados!'))
-  .catch(err => console.error('Erro ao conectar ao banco de dados:', err));
-  
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const routes = require('./routes');
 require('dotenv').config();
 
 
-const app = express();
-const port = 3000;
+// server.js
+const express = require('express');
+const db = require('./config/db');
+const PORT = process.env.PORT || 3000;
+const cors = require('cors');
 
+// Importação das rotas
+const app = express();
+const userRoutes = require('./routes/userRoutes');
+const taskRoutes = require('./routes/taskRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
+
+app.use(cors());
+app.use(express.json());
+app.use('/users', userRoutes);
+app.use('/tasks', taskRoutes);
+app.use('/categories', categoryRoutes);
+
+// Rota de teste com banco (agora não será sobrescrita)
 app.get('/', async (req, res) => {
   try {
     const result = await db.query('SELECT NOW()');
     res.send(`Hora atual no banco: ${result.rows[0].now}`);
   } catch (err) {
-    res.status(500).send('Erro ao conectar com o banco.');
+    console.error('Erro na rota de teste /:', err);
+    res.status(500).send('Erro ao conectar com o banco na rota de teste.');
   }
 });
 
-// Middlewares
-app.use(cors());
-app.use(bodyParser.json());
+// Middleware de tratamento de erros global
+app.use((err, req, res, next) => {
+    console.error('Erro global não capturado:', err);
+    res.status(err.statusCode || 500).json({ error: err.message || 'Ocorreu um erro inesperado no servidor.' });
+});
 
-// Usando as rotas definidas
-app.use('/api', routes);
-
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
 });
