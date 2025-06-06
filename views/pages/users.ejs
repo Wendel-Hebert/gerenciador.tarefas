@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('../partials/header') %>
+  
+  <main class="container">
+    <h1>Gerenciamento de Usuários</h1>
+    
+    <div class="form-container">
+      <h2>Novo Usuário</h2>
+      <form id="userForm">
+        <input type="hidden" id="userId">
+        
+        <div class="form-group">
+          <label for="name">Nome</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Salvar</button>
+          <button type="button" id="cancelBtn" class="btn">Cancelar</button>
+        </div>
+      </form>
+    </div>
+    
+    <div class="table-container">
+      <h2>Lista de Usuários</h2>
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Data de Criação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="5" class="loading">Carregando usuários...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  
+  <%- include('../partials/footer') %>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const userForm = document.getElementById('userForm');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const usersTable = document.getElementById('usersTable').querySelector('tbody');
+      
+      // Carregar usuários ao iniciar
+      loadUsers();
+      
+      // Configurar eventos
+      userForm.addEventListener('submit', handleSubmit);
+      cancelBtn.addEventListener('click', resetForm);
+      
+      // Função para carregar usuários
+      async function loadUsers() {
+        try {
+          const response = await fetch('/api/users');
+          if (!response.ok) {
+            throw new Error('Erro ao buscar usuários');
+          }
+          
+          const users = await response.json();
+          renderUsers(users);
+        } catch (error) {
+          console.error('Erro:', error);
+          usersTable.innerHTML = `<tr><td colspan="5" class="error">Erro ao carregar usuários: ${error.message}</td></tr>`;
+        }
+      }
+      
+      // Função para renderizar usuários na tabela
+      function renderUsers(users) {
+        if (users.length === 0) {
+          usersTable.innerHTML = '<tr><td colspan="5" class="empty">Nenhum usuário encontrado</td></tr>';
+          return;
+        }
+        
+        usersTable.innerHTML = '';
+        users.forEach(user => {
+          const row = document.createElement('tr');
+          
+          // Formatar data de criação
+          const createdAt = user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A';
+          
+          row.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>${createdAt}</td>
+            <td class="actions">
+              <button class="btn btn-edit" onclick="editUser(${user.id})">Editar</button>
+              <button class="btn btn-delete" onclick="deleteUser(${user.id})">Excluir</button>
+            </td>
+          `;
+          
+          usersTable.appendChild(row);
+        });
+      }
+      
+      // Função para lidar com o envio do formulário
+      async function handleSubmit(event) {
+        event.preventDefault();
+        
+        const userId = document.getElementById('userId').value;
+        const userData = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          password: document.getElementById('password').value
+        };
+        
+        try {
+          let url = '/api/users';
+          let method = 'POST';
+          
+          if (userId) {
+            url = `/api/users/${userId}`;
+            method = 'PUT';
+          }
+          
+          const response = await fetch(url, {
+            method,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+          });
+          
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao salvar usuário');
+          }
+          
+          resetForm();
+          loadUsers();
+          alert(userId ? 'Usuário atualizado com sucesso!' : 'Usuário criado com sucesso!');
+        } catch (error) {
+          console.error('Erro:', error);
+          alert(`Erro: ${error.message}`);
+        }
+      }
+      
+      // Função para resetar o formulário
+      function resetForm() {
+        document.getElementById('userId').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+      }
+      
+      // Função global para editar usuário
+      window.editUser = async function(id) {
+        try {
+          const response = await fetch(`/api/users/${id}`);
+          if (!response.ok) {
+            throw new Error('Erro ao buscar detalhes do usuário');
+          }
+          
+          const user = await response.json();
+          
+          document.getElementById('userId').value = user.id;
+          document.getElementById('name').value = user.name;
+          document.getElementById('email').value = user.email;
+          document.getElementById('password').value = ''; // Por segurança, não preenchemos a senha
+          
+          // Rolar até o formulário
+          document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+        } catch (error) {
+          console.error('Erro:', error);
+          alert(`Erro ao editar: ${error.message}`);
+        }
+      };
+      
+      // Função global para excluir usuário
+      window.deleteUser = async function(id) {
+        if (!confirm('Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.')) {
+          return;
+        }
+        
+        try {
+          const response = await fetch(`/api/users/${id}`, {
+            method: 'DELETE'
+          });
+          
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Erro ao excluir usuário');
+          }
+          
+          loadUsers();
+          alert('Usuário excluído com sucesso!');
+        } catch (error) {
+          console.error('Erro:', error);
+          alert(`Erro ao excluir: ${error.message}`);
+        }
+      };
+    });
+  </script>
+</body>
+</html>

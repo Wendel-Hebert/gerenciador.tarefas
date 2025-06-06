@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController.js');
+const userController = require('../controllers/userController');
 
-console.log('userController é:', userController); 
-
+// Rotas para usuários
+router.post('/', userController.create);
 router.get('/', userController.getAll);
 router.get('/:id', userController.getById);
-router.post('/', userController.create);
 router.put('/:id', userController.update);
 router.delete('/:id', userController.deleteUser);
 
