@@ -2,6 +2,21 @@ readme : <h1>📋 Gerenciador de Tarefas</h1>
 
   <p>Um sistema simples de gerenciamento de tarefas (To-do list), desenvolvido com JavaScript no frontend, Node.js no backend e PostgreSQL como banco de dados, utilizando o Supabase como plataforma de backend-as-a-service.</p>
 
+<h2>🖼️ Demonstrações Rápidas</h2>
+
+| Interface | GIF/Print |
+|-----------|-----------|
+| Tela inicial | ![Tela inicial](assets/telainicial.png) |
+| Criar tarefa | ![Criar tarefa](assets/teladetesk.png) |
+| Filtro por status | ![Filtro por status](assets/statustarefas.png) |
+
+
+### 🎥 Vídeo de demonstração
+
+Assista a um tour completo da aplicação (4 min):  
+[![Assista no YouTube](assets/prints/video-thumb.png)](https://youtu.be/SEU_VIDEO_ID)
+
+
   <h2>🚀 Funcionalidades</h2>
   <ul>
     <li>✅ Criar, ler, atualizar e deletar tarefas</li>

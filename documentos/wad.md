@@ -7,14 +7,14 @@ A aplicação conta com um sistema de autenticação de usuários seguro e persi
 O projeto foi desenvolvido com tecnologias web atuais, adotando uma arquitetura separada entre frontend e backend. Essa abordagem facilita a manutenção, promove a escalabilidade e permite uma integração eficiente entre os serviços de autenticação e banco de dados.
 
 
-##  Funcionalidades
+## 1.1 Funcionalidades
 
 - *CRUD de Tarefas:* Permite criar, ler, atualizar e excluir tarefas.
 - *Gerenciamento de Status:* Possibilidade de marcar tarefas como concluídas ou pendentes.
 - *Filtro por Status:* Filtragem de tarefas com base no seu estado atual.
 - *Autenticação de Usuário:* Sistema de login e registro utilizando o serviço Supabase Auth.
 
-##  Tecnologias Utilizadas
+## 1.2 Tecnologias Utilizadas
 
 - *Frontend:* HTML, CSS, JavaScript puro.
 - *Backend:* Node.js com Express.
@@ -29,7 +29,7 @@ A estrutura de dados foi projetada de forma simples e eficiente para atender às
 
 As principais tabelas utilizadas no projeto são:
 
-## Estrutura de Dados
+## 2.1 Estrutura de Dados
 
 A seguir, estão descritas as principais tabelas utilizadas na aplicação:
 
@@ -64,7 +64,7 @@ A seguir, apresenta-se o modelo lógico do banco de dados utilizado:
   style="width:300x; height:400px;"alt="Modelo logico">
 </div>
 
-##  Alterações Recentes
+##  3. Alterações banco de dados
 
 Foi implementado um processo completo de **configuração, migração e testes da base de dados**, visando garantir robustez e reprodutibilidade do ambiente da aplicação. As principais melhorias incluem:
 
@@ -76,5 +76,42 @@ Foi implementado um processo completo de **configuração, migração e testes d
   - Configurar o ambiente de banco de dados  
   - Executar as migrações  
   - Realizar testes das APIs  
+
+ ---
+
+## 3.0 Novas alterações
+```markdown
+# 1. Introdução
+Nesta versão do projeto foram concluidos tanto o front-end basico quanto as conecções com o banco de dados, assim todos os caminhos alem de acessiveis estao funcionais.
+
+# 2. Banco de Dados
+Supabase foi escolhido como plataforma de banco de dados, oferecendo um serviço de banco de dados PostgreSQL como um serviço (BaaS).
+
+# 3. Decisões Técnicas
+
+| Camada            | Decisão chave                                                                           |
+|-------------------|-----------------------------------------------------------------------------------------|
+| **Frontend**      | JavaScript puro + HTML/CSS para simplicidade e fácil onboarding.                        |
+| **Backend**       | Node.js com Express, estruturado em MVC + Services + Repository Pattern para clareza.   |
+| **Banco de Dados**| PostgreSQL no Supabase (BaaS) → provisioning instantâneo, backups automáticos.          |
+| **Arquitetura**   | Separação frontend/back, testes em Jest + Supertest, CI GitHub Actions (lint + test).   |
+
+# 4. Principais Aprendizados & Desafios
+
+- **Integração Supabase**: configuração inicial tranquila, mas mapear regras de segurança row‑level policies exigiu testes extensivos.  
+- **Testes E2E**: escrever testes HTTP com Supertest acelerou o feedback dos endpoints.  
+- **Docker (em rascunho)**: tentativas de containerizar o stack apontaram dependências implícitas — lição sobre _configuration as code_.  
+
+# 5. O que Funcionou Bem
+
+- Separação clara de responsabilidades (controllers ↔ services ↔ repos).  
+- Uso de variáveis de ambiente garantiu deploy sem hard‑coding.  
+- Script `runSQLScript.js` tornou as migrações reprodutíveis.  
+
+# 6. Pontos a Melhorar
+
+- **UI/UX**: falta responsividade para telas mobile.  
+- **Test coverage**: cobrir exceções e rotas de erro 404/500.  
+- **CI/CD completo**: adicionar pipeline de deploy automático para Vercel/Render após testes.  
 
 Essas alterações fortalecem a confiabilidade e portabilidade do sistema, facilitando o onboarding de novos desenvolvedores e a continuidade evolutiva do projeto.
