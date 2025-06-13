@@ -310,3 +310,75 @@ footer p {
   }
 }
 
+/* Estilos para a página de tarefas */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--gray-color);
+}
+
+.page-header h1 {
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-header .btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit {
+  background-color: var(--info-color);
+}
+
+.btn-edit:hover {
+  background-color: #138496;
+}
+
+.btn-delete {
+  background-color: var(--danger-color);
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* Status de tarefas */
+.status-pending {
+  color: var(--warning-color);
+  font-weight: 500;
+}
+
+.status-progress {
+  color: var(--info-color);
+  font-weight: 500;
+}
+
+.status-done {
+  color: var(--success-color);
+  font-weight: 500;
+}
+
+/* Mensagens de estado da tabela */
+.loading, .empty, .error {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.error {
+  color: var(--danger-color);
+}
+
+
