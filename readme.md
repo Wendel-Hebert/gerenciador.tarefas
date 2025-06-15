@@ -13,8 +13,8 @@ readme : <h1>📋 Gerenciador de Tarefas</h1>
 
 ### 🎥 Vídeo de demonstração
 
-Assista a um tour completo da aplicação (4 min):  
-[![Assista no YouTube](assets/prints/video-thumb.png)](https://youtu.be/SEU_VIDEO_ID)
+Assista a um tour completo da aplicação):  
+[![Assista no YouTube]](https://youtu.be/GkHDQoNfNMY)
 
 
   <h2>🚀 Funcionalidades</h2>
